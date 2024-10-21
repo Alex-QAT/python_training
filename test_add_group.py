@@ -12,9 +12,18 @@ class TestAddGroup(unittest.TestCase):
     def test_add_group(self):
         wd = self.wd
         self.open_home_pege(wd)
-        self.login(wd)
+        self.login(wd, "admin", "secret")
         self.open_group_page(wd)
-        self.create_group(wd)
+        self.create_group(wd, "new_group_firefox", "jhklpjhlksdjal;fkj", "полфкджплкпмдкфж")
+        self.return_to_group_page(wd)
+        self.logout(wd)
+
+    def test_add_emptygroup(self):
+        wd = self.wd
+        self.open_home_pege(wd)
+        self.login(wd, "admin", "secret")
+        self.open_group_page(wd)
+        self.create_group(wd, "", "", "")
         self.return_to_group_page(wd)
         self.logout(wd)
 
@@ -24,32 +33,32 @@ class TestAddGroup(unittest.TestCase):
     def return_to_group_page(self, wd):
         wd.find_element_by_link_text("groups").click()
 
-    def create_group(self, wd):
+    def create_group(self, wd, gr_name, gr_header, gr_footer):
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group form
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys("new_group_firefox")
+        wd.find_element_by_name("group_name").send_keys(gr_name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("jhklpjhlksdjal;fkj")
+        wd.find_element_by_name("group_header").send_keys(gr_header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(u"полфкджплкпмдкфж")
+        wd.find_element_by_name("group_footer").send_keys(gr_footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
 
     def open_group_page(self, wd):
         wd.find_element_by_link_text("groups").click()
 
-    def login(self, wd):
+    def login(self, wd, username, pswd):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").click()
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_name("pass").send_keys(pswd)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_pege(self, wd):
