@@ -25,7 +25,8 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_link_text("home page").click()
 
     def add_new_contact(self, wd, firstname, midlename, lastname, nickname, tittle, company, address, home, mobile,
-                        work, fax, email, email2, email3, homepage, byear, ayear):
+                        work, fax, email, email2, email3, homepage, byear, ayear, bday="27", bmonth="October", aday="27",
+                        amonth="October", bmonth_x="'October'", aday_x="29", amonth_x="11"):
         # init new contact creation
         wd.find_element_by_link_text("add new").click()
         # fill contact form
@@ -83,20 +84,20 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("homepage").clear()
         wd.find_element_by_name("homepage").send_keys(homepage)
         wd.find_element_by_name("bday").click()
-        Select(wd.find_element_by_name("bday")).select_by_visible_text("27")
-        wd.find_element_by_xpath("//option[@value='27']").click()
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(bday)
+        wd.find_element_by_xpath("//option[@value=%s]" % bday).click()
         wd.find_element_by_name("bmonth").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text("October")
-        wd.find_element_by_xpath("//option[@value='October']").click()
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(bmonth)
+        wd.find_element_by_xpath("//option[@value=%s]" % bmonth_x).click()
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(byear)
         wd.find_element_by_name("aday").click()
-        Select(wd.find_element_by_name("aday")).select_by_visible_text("27")
-        wd.find_element_by_xpath("//div[@id='content']/form/select[3]/option[29]").click()
+        Select(wd.find_element_by_name("aday")).select_by_visible_text(aday)
+        wd.find_element_by_xpath("//div[@id='content']/form/select[3]/option[%s]" % aday_x).click()
         wd.find_element_by_name("amonth").click()
-        Select(wd.find_element_by_name("amonth")).select_by_visible_text("October")
-        wd.find_element_by_xpath("//div[@id='content']/form/select[4]/option[11]").click()
+        Select(wd.find_element_by_name("amonth")).select_by_visible_text(amonth)
+        wd.find_element_by_xpath("//div[@id='content']/form/select[4]/option[%s]" % amonth_x).click()
         wd.find_element_by_name("ayear").click()
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(ayear)
