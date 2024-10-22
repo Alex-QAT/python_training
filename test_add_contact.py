@@ -18,15 +18,16 @@ class TestAddContact(unittest.TestCase):
         self.add_new_contact(wd, u"Иван", u"Васильевич", u"Сергеев", "John",
                              u"Начальник департамента проектных решений", u"Лукойл", u"Москва, Чистые пруды 19",
                              "+7-495-256-08-53", "+7-988-556-33-11", "+7-987-556-44-22", "3-33-43", "jonnydep@mail.ru",
-                             "jonnydep2@mail.ru", "jonnydep3@mail.ru", "www.vk.com/ciberded", "1984", "2024")
+                             "jonnydep2@mail.ru", "jonnydep3@mail.ru", "www.vk.com/ciberded", "1984", "2024", "27",
+                             "October", "27", "October", "'October'", "29", "11")
         self.return_to_homepage(wd)
 
     def return_to_homepage(self, wd):
         wd.find_element_by_link_text("home page").click()
 
     def add_new_contact(self, wd, firstname, midlename, lastname, nickname, tittle, company, address, home, mobile,
-                        work, fax, email, email2, email3, homepage, byear, ayear, bday="27", bmonth="October", aday="27",
-                        amonth="October", bmonth_x="'October'", aday_x="29", amonth_x="11"):
+                        work, fax, email, email2, email3, homepage, byear, ayear, bday, bmonth, aday, amonth, bmonth_x,
+                        aday_x, amonth_x):
         # init new contact creation
         wd.find_element_by_link_text("add new").click()
         # fill contact form
