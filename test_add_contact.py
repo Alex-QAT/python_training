@@ -22,6 +22,17 @@ class TestAddContact(unittest.TestCase):
                              "15", "November", "2024", "'October'", "29", "11"))
         self.return_to_homepage(wd)
 
+    def test_add_contact_new(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, "admin", "secret")
+        self.add_new_contact(wd, Contact(u"", u"", u"", "",
+                             u"", u"", u"", "",
+                             "", "", "", "", "",
+                             "", "", "20", "October", "1990", "15",
+                             "November", "2024", "'October'", "29", "11"))
+        self.return_to_homepage(wd)
+
     def return_to_homepage(self, wd):
         wd.find_element_by_link_text("home page").click()
 
