@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-import unittest
 
-from application import Application
-from group import Group
+from fixture.application import Application
+from model.group import Group
 
 import pytest
 
