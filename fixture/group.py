@@ -25,11 +25,11 @@ class GroupHelper:
     def fill_gr(self, group):
         wd = self.app.wd
         # fill group form
-        self.chng_fld_val("group_name", group.name)
-        self.chng_fld_val("group_header", group.header)
-        self.chng_fld_val("group_footer", group.footer)
+        self.chng_fld_gr("group_name", group.name)
+        self.chng_fld_gr("group_header", group.header)
+        self.chng_fld_gr("group_footer", group.footer)
 
-    def chng_fld_val(self, field_name, text):
+    def chng_fld_gr(self, field_name, text):
         wd = self.app.wd
         if text is not None:
             wd.find_element_by_name(field_name).click()
@@ -71,3 +71,8 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         # return to group page
         self.return_to_group_page()
+
+    def count_gr(self):
+        wd = self.app.wd
+        self.open_group_page()
+        return len(wd.find_elements_by_name("selected[]"))
