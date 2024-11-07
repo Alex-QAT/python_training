@@ -17,8 +17,14 @@ class ContactHelper:
 
     def start_add(self):
         wd = self.app.wd
+        self.open_homepage()
         # init new contact creation
         wd.find_element_by_link_text("add new").click()
+
+    def open_homepage(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("addressbook") and len(wd.find_elements_by_name("searchstring")) > 0):
+            wd.get("http://localhost/addressbook/")
 
     def complete_add(self):
         wd = self.app.wd
@@ -29,7 +35,7 @@ class ContactHelper:
 
     def start_edit_1st(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/")
+        self.open_homepage()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
 
     def complete_edit(self):
@@ -42,7 +48,7 @@ class ContactHelper:
 
     def del_1st_con(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/")
+        self.open_homepage()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
 
@@ -154,5 +160,5 @@ class ContactHelper:
 
     def count_con(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/")
+        self.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
