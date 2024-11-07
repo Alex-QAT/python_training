@@ -60,6 +60,8 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
+
+
     def fill_contact(self, contact):
         wd = self.app.wd
         # fill contact form
@@ -132,27 +134,35 @@ class ContactHelper:
         #wd.find_element_by_name("homepage").clear()
         #wd.find_element_by_name("homepage").send_keys(contact.homepage)
 
-        wd.find_element_by_name("bday").click()
-        Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
-        wd.find_element_by_xpath("//option[@value=%s]" % contact.bday).click()
-        wd.find_element_by_name("bmonth").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
-        wd.find_element_by_xpath("//option[@value=%s]" % contact.bmonth_x).click()
-        wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
-        wd.find_element_by_name("byear").send_keys(contact.byear)
-        wd.find_element_by_name("aday").click()
-        Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[3]/option[%s]" % contact.aday_x).click()
-        wd.find_element_by_name("amonth").click()
-        Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[4]/option[%s]" % contact.amonth_x).click()
-        wd.find_element_by_name("ayear").click()
-        wd.find_element_by_name("ayear").clear()
-        wd.find_element_by_name("ayear").send_keys(contact.ayear)
+        #wd.find_element_by_name("bday").click()
+        self.chng_slct_fld("bday", contact.bday)
+        #wd.find_element_by_xpath("//option[@value=%s]" % contact.bday).click()
+        #wd.find_element_by_name("bmonth").click()
+        self.chng_slct_fld("bmonth", contact.bmonth)
+        #Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
+        #wd.find_element_by_xpath("//option[@value=%s]" % contact.bmonth_x).click()
+        self.chng_fld_con("byear", contact.byear)
+        #wd.find_element_by_name("byear").click()
+        #wd.find_element_by_name("byear").clear()
+        #wd.find_element_by_name("byear").send_keys(contact.byear)
+        #wd.find_element_by_name("aday").click()
+        self.chng_slct_fld("aday", contact.aday)
+        #Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
+        #wd.find_element_by_xpath("//div[@id='content']/form/select[3]/option[%s]" % contact.aday_x).click()
+        #wd.find_element_by_name("amonth").click()
+        self.chng_slct_fld("amonth", contact.amonth)
+        #Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
+        #wd.find_element_by_xpath("//div[@id='content']/form/select[4]/option[%s]" % contact.amonth_x).click()
+        self.chng_fld_con("ayear", contact.ayear)
+        #wd.find_element_by_name("ayear").click()
+        #wd.find_element_by_name("ayear").clear()
+        #wd.find_element_by_name("ayear").send_keys(contact.ayear)
         #wd.find_element_by_name("theform").click()
 
-
+    def chng_slct_fld(self, fld_name, text):
+        wd = self.app.wd
+        if text is not None:
+            Select(wd.find_element_by_name(fld_name)).select_by_visible_text(text)
 
     def return_to_homepage(self):
         wd = self.app.wd
