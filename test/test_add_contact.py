@@ -8,18 +8,24 @@ import pytest
 
 
 def test_add_contact(app):
+    old_con = app.contact.get_con_list()
     app.contact.add_new(Contact(u"Иван", u"Васильевич", u"Сергеев", "John",
                              u"Начальник департамента проектных решений", u"Лукойл", u"Москва, Чистые пруды 19",
                              "+7-495-256-08-53", "+7-988-556-33-11", "+7-987-556-44-22", "3-33-43", "jonnydep@mail.ru",
                              "jonnydep2@mail.ru", "jonnydep3@mail.ru", "www.vk.com/ciberded", "27", "October", "1984",
                              "15", "November", "2024"))
+    new_con = app.contact.get_con_list()
+    assert len(old_con) + 1 == len(new_con)
 
 
 
 def test_add_contact_new(app):
+    old_con = app.contact.get_con_list()
     app.contact.add_new(Contact(u"", u"", u"", "",
                              u"", u"", u"", "",
                              "", "", "", "", "",
                              "", "", "20", "October", "1990", "15",
                              "November", "2024"))
+    new_con = app.contact.get_con_list()
+    assert len(old_con) + 1 == len(new_con)
 
