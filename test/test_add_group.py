@@ -7,12 +7,15 @@ import pytest
 
 
 def test_add_group(app):
-        #app.session.login("admin", "secret")
-        app.group.create(Group("new_group_firefox", "jhklpjhlksdjal;fkj", "полфкджплкпмдкфж"))
-        #app.session.logout()
+    old_groups = app.group.get_gr_list()
+    app.group.create(Group("new_group_firefox", "jhklpjhlksdjal;fkj", "полфкджплкпмдкфж"))
+    new_groups = app.group.get_gr_list()
+    assert len(old_groups) + 1 == len(new_groups)
+
 
 def test_add_emptygroup(app):
-        app.group.create(Group("", "", ""))
-
-
+    old_groups = app.group.get_gr_list()
+    app.group.create(Group("", "", ""))
+    new_groups = app.group.get_gr_list()
+    assert len(old_groups) + 1 == len(new_groups)
 
