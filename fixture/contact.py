@@ -175,6 +175,7 @@ class ContactHelper:
         self.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
+    # метод получения списка контактов
     def get_con_list(self):
         wd = self.app.wd
         self.open_homepage()
@@ -183,7 +184,6 @@ class ContactHelper:
             cells = element.find_elements_by_tag_name("td")
             lastname = cells[1].text
             firstname = cells[2].text
-            #text = element.text
             id = element.find_element_by_name("selected[]").get_attribute("value")
-            con_list.append(Contact(lastname, firstname, id=id))
+            con_list.append(Contact(lastname=lastname, firstname=firstname, id=id))
         return con_list

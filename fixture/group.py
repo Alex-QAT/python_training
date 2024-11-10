@@ -80,6 +80,7 @@ class GroupHelper:
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    # метод получения списка групп
     def get_gr_list(self):
         wd = self.app.wd
         self.open_group_page()
