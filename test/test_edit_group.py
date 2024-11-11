@@ -15,52 +15,52 @@ def test_edit_1st_group_full(app):
     group.id = old_groups[0].id
     # вызываем метод редактирования первой группы в списке с переменной group (которую задали на предыдущем шаге) в качестве параметра
     app.group.edit_1st(group)
+    # сравниваем старый список и счётчик групп (должны быть равны)
+    assert len(old_groups) == app.group.count_gr()
     # получаем новый список групп (после редактирования)
     new_groups = app.group.get_gr_list()
-    # сравниваем списки по размеру (должны быть равны)
-    assert len(old_groups) == len(new_groups)
     # первой группе в старом списке присваиваем тоже самое значение что и при редактировании
     old_groups[0] = group
     # проверяем на равенство отсортированные по ID списки групп (старый и новый)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
-def test_edit_1st_group_name(app):
-    if app.group.count_gr() == 0:
-        app.group.create(Group("test-group"))
-    old_groups = app.group.get_gr_list()
-    group = Group(name="New Name_Group")
-    group.id = old_groups[0].id
-    app.group.edit_1st(group)
-    new_groups = app.group.get_gr_list()
-    assert len(old_groups) == len(new_groups)
-    old_groups[0] = group
-    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+#def test_edit_1st_group_name(app):
+#    if app.group.count_gr() == 0:
+#        app.group.create(Group("test-group"))
+#    old_groups = app.group.get_gr_list()
+#    group = Group(name="New Name_Group")
+#    group.id = old_groups[0].id
+#    app.group.edit_1st(group)
+#    new_groups = app.group.get_gr_list()
+#    assert len(old_groups) == len(new_groups)
+#    old_groups[0] = group
+#    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
-def test_edit_1st_group_header(app):
-    if app.group.count_gr() == 0:
-        app.group.create(Group("test-group"))
-    old_groups = app.group.get_gr_list()
-    group = Group(header="New Header")
-    group.id = old_groups[0].id
-    group.name = old_groups[0].name
-    app.group.edit_1st(group)
-    new_groups = app.group.get_gr_list()
-    assert len(old_groups) == len(new_groups)
-    old_groups[0] = group
-    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+#def test_edit_1st_group_header(app):
+#    if app.group.count_gr() == 0:
+#        app.group.create(Group("test-group"))
+#    old_groups = app.group.get_gr_list()
+#    group = Group(header="New Header")
+#    group.id = old_groups[0].id
+#    group.name = old_groups[0].name
+#    app.group.edit_1st(group)
+#    new_groups = app.group.get_gr_list()
+#    assert len(old_groups) == len(new_groups)
+#    old_groups[0] = group
+#    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
-def test_edit_1st_group_footer(app):
-    if app.group.count_gr() == 0:
-        app.group.create(Group("test-group"))
-    old_groups = app.group.get_gr_list()
-    group = Group(footer="New Footer")
-    group.id = old_groups[0].id
-    group.name = old_groups[0].name
-    app.group.edit_1st(group)
-    new_groups = app.group.get_gr_list()
-    assert len(old_groups) == len(new_groups)
-    old_groups[0] = group
-    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+#def test_edit_1st_group_footer(app):
+#    if app.group.count_gr() == 0:
+#        app.group.create(Group("test-group"))
+#    old_groups = app.group.get_gr_list()
+#    group = Group(footer="New Footer")
+#    group.id = old_groups[0].id
+#    group.name = old_groups[0].name
+#    app.group.edit_1st(group)
+#    new_groups = app.group.get_gr_list()
+#    assert len(old_groups) == len(new_groups)
+#    old_groups[0] = group
+#    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)

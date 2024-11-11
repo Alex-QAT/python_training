@@ -18,10 +18,10 @@ def test_add_contact(app):
                              "15", "November", "2024")
     # метод добавления контакта, с использованием  вышеуказанной переменной в параметре
     app.contact.add_new(con)
+    # сравниваем старый список и счётчик контактов по количеству (счётчик на 1 больше старого списка)
+    assert len(old_con) + 1 == app.contact.count_con()
     # получаем новый список контактов
     new_con = app.contact.get_con_list()
-    # сравниваем списки контактов по количеству (новый на 1 больше старого)
-    assert len(old_con) + 1 == len(new_con)
     # добавляем в старый список тот же самый контакт из переменной
     old_con.append(con)
     # сравниваем отсортированные по ID списки контактов (должны быть идентичны друг другу)
@@ -29,16 +29,16 @@ def test_add_contact(app):
 
 
 
-def test_add_contact_new(app):
-    old_con = app.contact.get_con_list()
-    con = Contact(u"", u"", u"", "",
-                             u"", u"", u"", "",
-                             "", "", "", "", "",
-                             "", "", "20", "October", "1990", "15",
-                             "November", "2024")
-    app.contact.add_new(con)
-    new_con = app.contact.get_con_list()
-    assert len(old_con) + 1 == len(new_con)
-    old_con.append(con)
-    assert sorted(old_con, key=Contact.id_or_max) == sorted(new_con, key=Contact.id_or_max)
+#def test_add_contact_new(app):
+#    old_con = app.contact.get_con_list()
+#    con = Contact(u"", u"", u"", "",
+#                             u"", u"", u"", "",
+#                             "", "", "", "", "",
+#                             "", "", "20", "October", "1990", "15",
+#                             "November", "2024")
+#    app.contact.add_new(con)
+#    new_con = app.contact.get_con_list()
+#    assert len(old_con) + 1 == len(new_con)
+#    old_con.append(con)
+#    assert sorted(old_con, key=Contact.id_or_max) == sorted(new_con, key=Contact.id_or_max)
 

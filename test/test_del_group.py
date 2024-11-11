@@ -9,10 +9,10 @@ def test_del_1st_gr(app):
     old_groups = app.group.get_gr_list()
     # метод удаления группы
     app.group.del_1st_gr()
+    # сравниваем старый список и счётчик групп (старый список на 1 больше)
+    assert len(old_groups) - 1 == app.group.count_gr()
     # получаем новый список
     new_groups = app.group.get_gr_list()
-    # сравниваем старый и новый список по количеству групп (старый на 1 больше)
-    assert len(old_groups) - 1 == len(new_groups)
     #прибиваем в старом списке первую группу
     old_groups[0:1] = []
     #сравниваем списки (должны быть идентичны)

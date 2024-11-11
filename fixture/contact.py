@@ -11,11 +11,15 @@ class ContactHelper:
         self.start_add()
         self.fill_contact(contact)
         self.complete_add()
+        # кэш теряет актуалность
+        self.cont_cache = None
 
     def edit_1st(self,contact):
         self.start_edit_1st()
         self.fill_contact(contact)
         self.complete_edit()
+        # кэш теряет актуалность
+        self.cont_cache = None
 
     def start_add(self):
         wd = self.app.wd
@@ -53,6 +57,8 @@ class ContactHelper:
         self.open_homepage()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
+        # кэш теряет актуалность
+        self.cont_cache = None
 
 
     def chng_fld_con(self, field_name, text):
@@ -175,15 +181,17 @@ class ContactHelper:
         self.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
+    cont_cache = None
     # метод получения списка контактов
     def get_con_list(self):
-        wd = self.app.wd
-        self.open_homepage()
-        con_list = []
-        for element in wd.find_elements_by_name("entry"):
-            cells = element.find_elements_by_tag_name("td")
-            lastname = cells[1].text
-            firstname = cells[2].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            con_list.append(Contact(lastname=lastname, firstname=firstname, id=id))
-        return con_list
+        if self.cont_cache is None:
+            wd = self.app.wd
+            self.open_homepage()
+            self.cont_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                cells = element.find_elements_by_tag_name("td")
+                lastname = cells[1].text
+                firstname = cells[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.cont_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return list(self.cont_cache)
