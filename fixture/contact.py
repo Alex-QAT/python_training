@@ -14,8 +14,11 @@ class ContactHelper:
         # кэш теряет актуалность
         self.cont_cache = None
 
-    def edit_1st(self,contact):
-        self.start_edit_1st()
+    def edit_1st(self, contact):
+        self.edit_by_index(0, contact)
+
+    def edit_by_index(self, index, contact):
+        self.start_edit_by_index(index)
         self.fill_contact(contact)
         self.complete_edit()
         # кэш теряет актуалность
@@ -39,10 +42,10 @@ class ContactHelper:
         # return_to_homepage
         self.return_to_homepage()
 
-    def start_edit_1st(self):
+    def start_edit_by_index(self,index):
         wd = self.app.wd
         self.open_homepage()
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
     def complete_edit(self):
         wd = self.app.wd
@@ -51,11 +54,13 @@ class ContactHelper:
         # return_to_homepage
         self.return_to_homepage()
 
-
     def del_1st_con(self):
+        self.del_con_by_index(0)
+
+    def del_con_by_index(self, index):
         wd = self.app.wd
         self.open_homepage()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # кэш теряет актуалность
         self.cont_cache = None

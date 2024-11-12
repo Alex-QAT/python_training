@@ -3,25 +3,31 @@ from model.group import Group
 
 class GroupHelper:
 
-    def create(self,group):
+    def create(self, group):
         self.start_create()
         self.fill_gr(group)
         self.complete_create()
         # кэш теряет актуалность
         self.group_cache = None
 
-    def edit_1st(self,group):
-        self.start_edit_1st()
+    def edit_1st(self, group):
+        self.edit_by_index(0, group)
+
+    def edit_by_index(self, index, group):
+        self.start_edit_by_index(index)
         self.fill_gr(group)
         self.complete_edit()
         # кэш теряет актуалность
         self.group_cache = None
 
     def del_1st_gr(self):
+        self.del_gr_by_index(0)
+
+    def del_gr_by_index(self, index):
         wd = self.app.wd
         self.open_group_page()
         #select group
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         #submit delete group
         wd.find_element_by_name("delete").click()
         # return to group page
@@ -69,12 +75,19 @@ class GroupHelper:
         self.return_to_group_page()
 
 
-    def start_edit_1st(self):
+    def start_edit_by_index(self,index):
         wd = self.app.wd
         self.open_group_page()
         # init group edition
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_name("edit").click()
+
+    #def start_edit_1st(self):
+    #    wd = self.app.wd
+    #    self.open_group_page()
+    #    # init group edition
+    #    wd.find_element_by_name("selected[]").click()
+    #    wd.find_element_by_name("edit").click()
 
     def complete_edit(self):
         wd = self.app.wd
