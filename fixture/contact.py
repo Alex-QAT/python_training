@@ -2,6 +2,8 @@ from selenium.webdriver.support.select import Select
 
 from model.contact import Contact
 
+import re
+
 
 class ContactHelper:
     def __init__(self, app):
@@ -18,7 +20,7 @@ class ContactHelper:
         self.edit_by_index(0, contact)
 
     def edit_by_index(self, index, contact):
-        self.start_edit_by_index(index)
+        self.open_edit_by_index(index)
         self.fill_contact(contact)
         self.complete_edit()
         # кэш теряет актуалность
@@ -42,10 +44,15 @@ class ContactHelper:
         # return_to_homepage
         self.return_to_homepage()
 
-    def start_edit_by_index(self,index):
+    def open_edit_by_index(self, index):
         wd = self.app.wd
         self.open_homepage()
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
+    def open_con_view_by_index(self,index):
+        wd = self.app.wd
+        self.open_homepage()
+        wd.find_elements_by_xpath("//img[@alt='Details']")[index].click()
 
     def complete_edit(self):
         wd = self.app.wd
@@ -193,10 +200,39 @@ class ContactHelper:
             wd = self.app.wd
             self.open_homepage()
             self.cont_cache = []
-            for element in wd.find_elements_by_name("entry"):
-                cells = element.find_elements_by_tag_name("td")
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_elements_by_tag_name("td")
                 lastname = cells[1].text
                 firstname = cells[2].text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.cont_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+                id = row.find_element_by_name("selected[]").get_attribute("value")
+                all_phones = cells[5].text
+                all_emails = cells[4].text
+                address = cells[3].text
+                self.cont_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, all_phones_hp=all_phones, all_emails_hp=all_emails, address=address))
         return list(self.cont_cache)
+
+    def get_con_from_ep(self, index):
+        wd = self.app.wd
+        self.open_edit_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("home").get_attribute("value")
+        h_phone = wd.find_element_by_name("home").get_attribute("value")
+        w_phone = wd.find_element_by_name("work").get_attribute("value")
+        m_phone = wd.find_element_by_name("mobile").get_attribute("value")
+        f_phone = wd.find_element_by_name("fax").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, id=id, home=h_phone, mobile=m_phone, work=w_phone, fax=f_phone, email=email, email2=email2, email3=email3, address=address)
+
+    def get_con_from_vp(self, index):
+        wd = self.app.wd
+        self.open_con_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        h_phone = re.search("H: (.*)", text).group(1)
+        m_phone = re.search("M: (.*)", text).group(1)
+        w_phone = re.search("W: (.*)", text).group(1)
+        f_phone = re.search("F: (.*)", text).group(1)
+        return Contact(home=h_phone, mobile=m_phone, work=w_phone, fax=f_phone)
