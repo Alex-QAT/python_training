@@ -16,9 +16,6 @@ testdata = [Contact(firstname="", midlename="", lastname="", nickname="", tittle
                                                      for i in range(5)]
 #
 @pytest.mark.parametrize("con", testdata, ids=[repr(x) for x in testdata])
-
-
-
 def test_add_contact(app, con):
     # получаем список контактов
     old_con = app.contact.get_con_list()

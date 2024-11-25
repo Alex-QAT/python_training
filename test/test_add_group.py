@@ -16,8 +16,6 @@ testdata = [Group(name="", header="", footer="")] + [Group(name=random_string("=
                                                      for i in range(5)]
 #
 @pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-
-
 def test_add_group(app, group):
     # получаем список групп
     old_groups = app.group.get_gr_list()
