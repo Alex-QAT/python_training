@@ -69,6 +69,8 @@ class ContactHelper:
         self.open_homepage()
         wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
+        #закрытие диалогового окна
+        #wd.switch_to.alert.accept()
         # кэш теряет актуалность
         self.cont_cache = None
 
