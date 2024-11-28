@@ -35,7 +35,15 @@ class ContactHelper:
     def open_homepage(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("addressbook") and len(wd.find_elements_by_name("searchstring")) > 0):
-            wd.get("http://localhost/addressbook/")
+            #1 прямая ссылка - плохая идея т.к. адреса могут меняться и проще задавать такие параметры в отдельном файле
+            #wd.get("http://localhost/addressbook/")
+
+            #2 помощник обращается к менеджеру, чтобы взять значение свойства base_url,
+            # в котором находится адрес страницы, и сам открывает эту страницу, передавая её драйверу браузера в метод wd.get(...)
+            #wd.get(self.app.base_url)
+
+            #3 альтернативный метод: сразу обращаемся к методу объекта application и он делает всё сам
+            self.app.open_home_page()
 
     def complete_add(self):
         wd = self.app.wd
