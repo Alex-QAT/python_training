@@ -26,6 +26,23 @@ class ContactHelper:
         # кэш теряет актуалность
         self.cont_cache = None
 
+    def open_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_homepage()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
+    def edit_by_id(self, id, contact):
+        self.open_edit_by_id(id)
+        self.fill_contact(contact)
+        self.complete_edit()
+        # кэш теряет актуалность
+        self.cont_cache = None
+
+    def open_edit_by_id(self, id):
+        wd = self.app.wd
+        self.open_homepage()
+        wd.find_element_by_xpath('//a[contains(@href,"edit.php?id=%s")]' % id).click()  # find_element_by_css_selector("input[id='%s']" % id).click()
+
     def start_add(self):
         wd = self.app.wd
         self.open_homepage()
@@ -52,10 +69,7 @@ class ContactHelper:
         # return_to_homepage
         self.return_to_homepage()
 
-    def open_edit_by_index(self, index):
-        wd = self.app.wd
-        self.open_homepage()
-        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
 
     def open_con_view_by_index(self,index):
         wd = self.app.wd
@@ -76,6 +90,16 @@ class ContactHelper:
         wd = self.app.wd
         self.open_homepage()
         wd.find_elements_by_name("selected[]")[index].click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        #закрытие диалогового окна
+        #wd.switch_to.alert.accept()
+        # кэш теряет актуалность
+        self.cont_cache = None
+
+    def del_con_by_id(self, id):
+        wd = self.app.wd
+        self.open_homepage()
+        wd.find_element_by_css_selector("input[id='%s']" % id).click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         #закрытие диалогового окна
         #wd.switch_to.alert.accept()

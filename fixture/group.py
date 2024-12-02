@@ -3,6 +3,9 @@ from model.group import Group
 
 class GroupHelper:
 
+    def __init__(self, app):
+        self.app = app
+
     def create(self, group):
         self.start_create()
         self.fill_gr(group)
@@ -20,13 +23,34 @@ class GroupHelper:
         # кэш теряет актуалность
         self.group_cache = None
 
+    def start_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_group_page()
+        # init group edition
+        wd.find_elements_by_name("selected[]")[index].click()
+        wd.find_element_by_name("edit").click()
+
+    def edit_by_id(self, id, group):
+        self.start_edit_by_id(id)
+        self.fill_gr(group)
+        self.complete_edit()
+        # кэш теряет актуалность
+        self.group_cache = None
+
+    def start_edit_by_id(self, id):
+        wd = self.app.wd
+        self.open_group_page()
+        # init group edition
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_name("edit").click()
+
     def del_1st_gr(self):
         self.del_gr_by_index(0)
 
     def del_gr_by_index(self, index):
         wd = self.app.wd
         self.open_group_page()
-        #select group
+        #select group by index
         wd.find_elements_by_name("selected[]")[index].click()
         #submit delete group
         wd.find_element_by_name("delete").click()
@@ -35,9 +59,20 @@ class GroupHelper:
         # кэш теряет актуалность
         self.group_cache = None
 
+    def del_gr_by_id(self, id):
+        wd = self.app.wd
+        self.open_group_page()
+        #select group by id
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        #submit delete group
+        wd.find_element_by_name("delete").click()
+        # return to group page
+        self.return_to_group_page()
+        # кэш теряет актуалность
+        self.group_cache = None
 
-    def __init__(self, app):
-        self.app = app
+
+
 
     def open_group_page(self):
         wd = self.app.wd
@@ -75,12 +110,7 @@ class GroupHelper:
         self.return_to_group_page()
 
 
-    def start_edit_by_index(self,index):
-        wd = self.app.wd
-        self.open_group_page()
-        # init group edition
-        wd.find_elements_by_name("selected[]")[index].click()
-        wd.find_element_by_name("edit").click()
+
 
     #def start_edit_1st(self):
     #    wd = self.app.wd
