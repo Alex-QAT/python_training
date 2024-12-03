@@ -6,7 +6,7 @@ from model.group import Group
 
 #
 
-def test_add_group(app, db, json_groups): #c проверками беря данные из БД
+def test_add_group(app, db, json_groups, check_ui): #c проверками беря данные из БД
     group = json_groups
     # получаем список групп из UI
     old_groups = db.get_gr_list()
@@ -22,6 +22,9 @@ def test_add_group(app, db, json_groups): #c проверками беря да�
     old_groups.append(group)
     # сравниваем отсортированные по ID списки групп (должны быть идентичны)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+    # отключаемая сверка списков, полученных из БД и из UI
+    if check_ui:
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_gr_list(), key=Group.id_or_max)
 
 
 #def test_add_group(app, json_groups): #c проверками беря данные из UI

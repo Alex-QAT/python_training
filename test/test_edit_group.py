@@ -3,7 +3,7 @@ from random import randrange
 from model.group import Group
 import random
 
-def test_edit_rnd_group(app, db): #списки групп получаем из DB
+def test_edit_rnd_group(app, db, check_ui): #списки групп получаем из DB
     # проверка предусловия (если группы отсутствуют - то создать группу, иначе ничего не делать)
     if app.group.count_gr() == 0:
         app.group.create(Group("test-group"))
@@ -26,6 +26,9 @@ def test_edit_rnd_group(app, db): #списки групп получаем из
     old_groups[index] = group
     # проверяем на равенство отсортированные по ID списки групп (старый и новый)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+    # отключаемая сверка списков, полученных из БД и из UI
+    if check_ui:
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_gr_list(), key=Group.id_or_max)
 
 
 #def test_edit_rnd_group(app): #списки групп получаем из UI

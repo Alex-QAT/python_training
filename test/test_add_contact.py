@@ -8,7 +8,7 @@ from data.contacts import testdata
 
 #@pytest.mark.parametrize("con", testdata, ids=[repr(x) for x in testdata])
 
-def test_add_contact(app, db, data_contacts): # с проверкой данных по БД
+def test_add_contact(app, db, data_contacts, check_ui): # с проверкой данных по БД
     con = data_contacts
     # получаем список контактов
     old_con = db.get_con_list()
@@ -26,6 +26,9 @@ def test_add_contact(app, db, data_contacts): # с проверкой данны
     old_con.append(con)
     # сравниваем отсортированные по ID списки контактов (должны быть идентичны друг другу)
     assert sorted(old_con, key=Contact.id_or_max) == sorted(new_con, key=Contact.id_or_max)
+    # отключаемая сверка списков, полученных из БД и из UI
+    if check_ui:
+        assert sorted(new_con, key=Contact.id_or_max) == sorted(app.contact.get_con_list(), key=Contact.id_or_max)
 
 #def test_add_contact(app, data_contacts): # с проверками данных по UI
 #    con = data_contacts

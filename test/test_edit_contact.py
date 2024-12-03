@@ -2,7 +2,7 @@ from random import randrange
 
 from model.contact import Contact
 
-def test_edit_rnd_con_by_id(app, db): # списки контактов получаем из БД
+def test_edit_rnd_con_by_id(app, db, check_ui): # списки контактов получаем из БД
     # преусловие на наличие контактов (если нет - создаём)
     if app.contact.count_con() == 0:
         app.contact.add_new(Contact(firstname="Петя"))
@@ -25,6 +25,9 @@ def test_edit_rnd_con_by_id(app, db): # списки контактов полу
     new_con = db.get_con_list()
     old_con[index] = con
     assert sorted(old_con, key=Contact.id_or_max) == sorted(new_con, key=Contact.id_or_max)
+    # отключаемая сверка списков, полученных из БД и из UI
+    if check_ui:
+        assert sorted(new_con, key=Contact.id_or_max) == sorted(app.contact.get_con_list(), key=Contact.id_or_max)
 
 #def test_edit_rnd_con_by_index(app): # списки контактов получаем из UI
 #    # преусловие на наличие контактов (если нет - создаём)

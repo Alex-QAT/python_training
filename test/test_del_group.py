@@ -5,7 +5,7 @@ import random
 
 
 
-def test_del_rnd_gr(app, db): #c проверкой списков из БД и удалением по ID (из-за того, что способ сортировки в UI и в БД отличается)
+def test_del_rnd_gr(app, db, check_ui): #c проверкой списков из БД и удалением по ID (из-за того, что способ сортировки в UI и в БД отличается)
     # предусловие если групп нет - то создаём, иначе ничего не делаем
     if len(db.get_gr_list()) == 0:
         app.group.create(Group("test-group", "бла бла бла", "ту ту ту"))
@@ -23,6 +23,9 @@ def test_del_rnd_gr(app, db): #c проверкой списков из БД и 
     old_groups.remove(group)
     #сравниваем списки (должны быть идентичны)
     assert old_groups == new_groups
+    # отключаемая сверка списков, полученных из БД и из UI
+    if check_ui:
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_gr_list(), key=Group.id_or_max)
 
 #def test_del_rnd_gr(app): #c проверкой списков из UI и удалением по индексу
 #    # предусловие если групп нет - то создаём, иначе ничего не делаем
