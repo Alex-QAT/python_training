@@ -8,8 +8,8 @@ from data.contacts import testdata
 
 #@pytest.mark.parametrize("con", testdata, ids=[repr(x) for x in testdata])
 
-def test_add_contact(app, db, data_contacts, check_ui): # с проверкой данных по БД
-    con = data_contacts
+def test_add_contact(app, db, json_contacts, check_ui): # с проверкой данных по БД
+    con = json_contacts
     # получаем список контактов
     old_con = db.get_con_list()
     # кладём в переменную объект контакта который будем добавлять
