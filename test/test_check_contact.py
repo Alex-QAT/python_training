@@ -2,6 +2,24 @@ import re
 
 from random import randrange
 
+
+def test_check_every_con_hp_db(app):
+    for index in range(app.contact.count_con()):
+        con_from_hp = app.contact.get_con_list()[index]
+        con_from_ep = app.contact.get_con_from_ep(index)
+        # обратная проверка:
+        #берём список с home_page и берём весь текст с телефонами
+        #а потом берём склеенный список из телефонов с edit_page
+        assert con_from_hp.all_phones_hp == merge_phones_hp(con_from_ep)
+        # обратная проверка:
+        # берём список с home_page и берём весь текст с email
+        # а потом берём склеенный список из email с edit_page
+        assert con_from_hp.all_emails_hp == merge_emails_hp(con_from_ep)
+        # прямая проверка: извлекаем нужные поля из home_page и из edit_page и сравниваем их
+        assert con_from_hp.firstname == con_from_ep.firstname
+        assert con_from_hp.lastname == con_from_ep.lastname
+        assert con_from_hp.address == con_from_ep.address
+
 def test_check_contact(app):
     index = randrange(app.contact.count_con())
     con_from_hp = app.contact.get_con_list()[index]

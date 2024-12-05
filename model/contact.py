@@ -30,7 +30,7 @@ class Contact:
 
     # метод репрезентации
     def __repr__(self):
-        return "%s:%s:%s" % (self.id, self.lastname, self.firstname)
+        return "%s:%s:%s:%s:%s:%s:%s:%s:%s:%s" % (self.id, self.lastname, self.firstname, self.home, self.mobile, self.work, self.email, self.email2, self.email3, self.address)
 
     # метод сравнения, задаём свои правила
     def __eq__(self, other):
