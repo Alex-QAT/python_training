@@ -2,23 +2,39 @@ import re
 
 from random import randrange
 
+from fixture.orm import ORMFixture
+from model.contact import Contact
 
-def test_check_every_con_hp_db(app):
-    for index in range(app.contact.count_con()):
-        con_from_hp = app.contact.get_con_list()[index]
-        con_from_ep = app.contact.get_con_from_ep(index)
-        # обратная проверка:
-        #берём список с home_page и берём весь текст с телефонами
-        #а потом берём склеенный список из телефонов с edit_page
-        assert con_from_hp.all_phones_hp == merge_phones_hp(con_from_ep)
-        # обратная проверка:
-        # берём список с home_page и берём весь текст с email
-        # а потом берём склеенный список из email с edit_page
-        assert con_from_hp.all_emails_hp == merge_emails_hp(con_from_ep)
-        # прямая проверка: извлекаем нужные поля из home_page и из edit_page и сравниваем их
-        assert con_from_hp.firstname == con_from_ep.firstname
-        assert con_from_hp.lastname == con_from_ep.lastname
-        assert con_from_hp.address == con_from_ep.address
+#orm = ORMFixture(host="127.0.0.1", db_name="addressbook", user="root", password="b0r0v@Y@")
+#orm = ORMFixture(host=host, db_name=db_name, user=user, password=password)
+
+def test_check_every_con_hp_db(app, orm):
+    # получаем список контактов с HomePage и сортируем по ID
+    l_con_hp = sorted(app.contact.get_con_list(), key=Contact.id_or_max)
+    # получаем список контактов из БД и сортируем по ID
+    l_con_db = sorted(orm.get_con_list(), key=Contact.id_or_max)
+    # Запускаем цикл по списку
+    for id in range(app.contact.count_con()):
+        con_hp = l_con_hp[id]
+        con_orm = l_con_db[id]
+        #Отладочный вывод некоторых данных из отсортированных списков
+        #print(' ')
+        #print(' ')
+        #print(con_hp.id, con_hp.firstname, con_hp.lastname, con_hp.address)
+        #print (' ')
+        #print(con_db.id, con_db.firstname, con_db.lastname, con_db.address)
+        #print('============')
+        # сравниваем поле firstname
+        assert con_hp.firstname == con_orm.firstname
+        # сравниваем поле lastname
+        assert con_hp.lastname == con_orm.lastname
+        # сравниваем поле address
+        assert con_hp.address == con_orm.address
+        # сравниваем данные с HP общая ячейка с телефонами и склеенная строка с телефонами из БД
+        assert con_hp.all_phones_hp == merge_phones_hp(con_orm)
+        # сравниваем данные с HP общая ячейка с email'ами и склеенная, очищенная, отфильтрованная строка с email'ами из БД
+        assert con_hp.all_emails_hp == merge_emails_hp(con_orm)
+
 
 def test_check_contact(app):
     index = randrange(app.contact.count_con())

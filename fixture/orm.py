@@ -5,6 +5,11 @@ from model.contact import Contact
 
 class ORMFixture:
 
+    def __init__(self, host, db_name, user, password):
+        self.db.bind('mysql', host=host, database=db_name, user=user, password=password)
+        self.db.generate_mapping()
+        sql_debug(True)
+
     db = Database()
 
     class ORMGroup(db.Entity):
@@ -27,10 +32,7 @@ class ORMFixture:
         email3 = Optional(str, column='email3')
         address = Optional(str, column='address')
 
-    def __init__(self, host, db_name, user, password):
-        self.db.bind('mysql', host=host, database=db_name, user=user, password=password)
-        self.db.generate_mapping()
-        sql_debug(True)
+
 
 
     def convert_groups_to_model(self, groups):
@@ -52,4 +54,7 @@ class ORMFixture:
     @db_session
     def get_con_list(self):
         return self.convert_con_to_model(list(select(c for c in ORMFixture.ORMContact)))
+
+    def destroy(self):
+        pass
 
