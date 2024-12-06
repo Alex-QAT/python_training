@@ -18,6 +18,8 @@ class ORMFixture:
         name = Optional(str, column='group_name')
         header = Optional(str, column='group_header')
         footer = Optional(str, column='group_footer')
+        # свойство указывающее на связь между таблицами (тоблица групп связана с таблицей контактов)
+        contacts = Set(lambda: ORMFixture.ORMContact, table="address_in_groups", column="id", reverse="groups", lazy=True)
 
     class ORMContact(db.Entity):
         _table_ = 'addressbook'
@@ -31,8 +33,8 @@ class ORMFixture:
         email2 = Optional(str, column='email2')
         email3 = Optional(str, column='email3')
         address = Optional(str, column='address')
-
-
+        # свойство указывающее на связь между таблицами (тоблица контактов связана с таблицей групп)
+        groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts", lazy=True)
 
 
     def convert_groups_to_model(self, groups):
@@ -55,6 +57,10 @@ class ORMFixture:
     def get_con_list(self):
         return self.convert_con_to_model(list(select(c for c in ORMFixture.ORMContact)))
 
-    def destroy(self):
-        pass
+    @db_session
+    def get_con_in_gr(self, group):
+        orm_gr = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
+        return self.convert_con_to_model(orm_gr.contacts)
+
+
 

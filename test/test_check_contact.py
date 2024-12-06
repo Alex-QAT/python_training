@@ -16,7 +16,7 @@ def test_check_every_con_hp_db(app, orm):
     # Запускаем цикл по списку
     for id in range(app.contact.count_con()):
         con_hp = l_con_hp[id]
-        con_orm = l_con_db[id]
+        con_db = l_con_db[id]
         #Отладочный вывод некоторых данных из отсортированных списков
         #print(' ')
         #print(' ')
@@ -25,15 +25,15 @@ def test_check_every_con_hp_db(app, orm):
         #print(con_db.id, con_db.firstname, con_db.lastname, con_db.address)
         #print('============')
         # сравниваем поле firstname
-        assert con_hp.firstname == con_orm.firstname
+        assert con_hp.firstname == con_db.firstname
         # сравниваем поле lastname
-        assert con_hp.lastname == con_orm.lastname
+        assert con_hp.lastname == con_db.lastname
         # сравниваем поле address
-        assert con_hp.address == con_orm.address
+        assert con_hp.address == con_db.address
         # сравниваем данные с HP общая ячейка с телефонами и склеенная строка с телефонами из БД
-        assert con_hp.all_phones_hp == merge_phones_hp(con_orm)
+        assert con_hp.all_phones_hp == merge_phones_hp(con_db)
         # сравниваем данные с HP общая ячейка с email'ами и склеенная, очищенная, отфильтрованная строка с email'ами из БД
-        assert con_hp.all_emails_hp == merge_emails_hp(con_orm)
+        assert con_hp.all_emails_hp == merge_emails_hp(con_db)
 
 
 def test_check_contact(app):

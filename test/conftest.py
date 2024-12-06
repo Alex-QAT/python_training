@@ -44,10 +44,8 @@ def db(request):
 def orm(request):
     orm_cfg = load_config(request.config.getoption("--target"))["db"]
     ormfixture = ORMFixture(host=orm_cfg['host'], db_name=orm_cfg['db_name'], user=orm_cfg['user'], password=orm_cfg['password'])
-    # ORM сама завершает
-    def fin():
-        ormfixture.destroy()
-    request.addfinalizer(fin)
+    # ORM сама завершает, эта фикстура финализации не требует
+
     return ormfixture
 
 
