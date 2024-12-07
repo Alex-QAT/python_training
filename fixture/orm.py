@@ -62,5 +62,12 @@ class ORMFixture:
         orm_gr = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
         return self.convert_con_to_model(orm_gr.contacts)
 
+    @db_session
+    def get_con_not_in_gr(self, group):
+        orm_gr = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
+        return self.convert_con_to_model(
+            select(c for c in ORMFixture.ORMContact if orm_gr not in c.groups)
+        )
+
 
 

@@ -270,3 +270,23 @@ class ContactHelper:
         w_phone = re.search("W: (.*)", text).group(1)
         f_phone = re.search("F: (.*)", text).group(1)
         return Contact(home=h_phone, mobile=m_phone, work=w_phone, fax=f_phone)
+
+    def con_add_to_gr(self, con_id, gr_id):
+        wd = self.app.wd
+        self.open_homepage()
+        # кликаем по чек-боксу контакта
+        wd.find_element_by_css_selector("input[id='%s']" % con_id).click()
+        # выбираем имя из выпадающего списка по идентификатору группы
+        wd.find_element_by_css_selector("select[name='to_group']>option[value='%s']" % gr_id).click()
+        # нажимаем кнопку добавить
+        wd.find_element_by_xpath("//input[@value='Add to']").click()
+
+    def con_del_from_gr(self, con_id, gr_id):
+        wd = self.app.wd
+        self.open_homepage()
+        # выбираем имя из выпадающего списка по идентификатору группы
+        wd.find_element_by_css_selector("select[name='group']>option[value='%s']" % gr_id).click()
+        # кликаем по чек-боксу контакта
+        wd.find_element_by_css_selector("input[id='%s']" % con_id).click()
+        # нажимаем кнопку добавить
+        wd.find_element_by_xpath("//input[@type='submit']").click()
