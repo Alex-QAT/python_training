@@ -62,9 +62,9 @@ class GroupHelper:
     def del_gr_by_id(self, id):
         wd = self.app.wd
         self.open_group_page()
-        #select group by id
+        # select group by id
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
-        #submit delete group
+        # submit delete group
         wd.find_element_by_name("delete").click()
         # return to group page
         self.return_to_group_page()
